@@ -1,18 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { OnInit } from '@angular/core';
-import { DashboardComponent } from "./page/dashboard/dashboard.component";
-
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, DashboardComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
+  title = 'MOS Burgers Front-End';
+
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
-  title = 'MOS_Burgers_Front-End';
+
 }
