@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { OnInit } from '@angular/core';
-import { initFlowbite } from 'flowbite';
-import { ProductComponent } from "./page/product/product.component";
 import { DashboardComponent } from "./page/dashboard/dashboard.component";
+
 
 @Component({
   selector: 'app-root',
