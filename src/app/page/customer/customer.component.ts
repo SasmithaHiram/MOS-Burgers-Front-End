@@ -1,49 +1,51 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-customer',
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css',
 })
+
 export class CustomerComponent {
-  customer: any = {
-    name: '',
-    phoneNumber: '',
-    email: '',
-  };
+  newCustomer: any={
+    cName: '',
+    cPhoneNumber: '',
+    cEmail: ''
+  }
+
+  customers: any[] = [];
+  
+  constructor(private http: HttpClient) {}
 
   addCustomer() {
-    // if (
-    //   !this.customer.name ||
-    //   !this.customer.phoneNumber ||
-    //   !this.customer.email
-    // ) {
-    //   alert('ALL FIELDS ARE REQUIRED!');
-    // } else {
-    //   return;
-    // }
-
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-
-    const raw = JSON.stringify({
-      name: this.customer.name,
-      email: this.customer.phoneNumber,
-      phoneNumber: this.customer.email,
-    });
-
-    const requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
-
-    fetch('http://localhost:8080/customer/add-customer', requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.error(error));
+    console.log(this.newCustomer);
+    
+      this.http.post('http://localhost:8080/customer/add-customer', this.newCustomer).subscribe(
+        (Response: any) => {
+          this.newCustomer = {cName: '',  cPhoneNumber: '', cEmail: ''}; 
+          this.getAllCustomers();
+        },
+        (error) => {
+          console.error('FAILED To ADD CUSTOMER :', error);
+        }
+      );      
   }
+
+  getAllCustomers() {
+    this.http.get('http://localhost:8080/customer/get-all-customers').subscribe(
+      (Response: any) => {
+        this.customers=Response;
+        console.log(Response);
+      },
+      (error) => {
+        console.error('FAILED GET ALL CUSTOMERS');
+      }
+    )
+  }
+
+
 }

@@ -6,12 +6,10 @@ import { OnInit } from '@angular/core';
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
   title = 'MOS Burgers Front-End';
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
