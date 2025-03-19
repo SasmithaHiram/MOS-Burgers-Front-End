@@ -3,7 +3,6 @@ import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { ProductComponent } from './page/product/product.component';
 import { CustomerComponent } from './page/customer/customer.component';
 import { HomeComponent } from './page/home/home.component';
-import { TableComponent } from './common/table/table.component';
 
 export const routes: Routes = [
   {
@@ -16,7 +15,6 @@ export const routes: Routes = [
     children: [
       { path: 'products', component: ProductComponent },
       { path: 'customers', component: CustomerComponent },
-      { path: 'customers', component: TableComponent },
     ],
   },
 ];
