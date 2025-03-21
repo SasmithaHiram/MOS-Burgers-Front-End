@@ -9,35 +9,53 @@ import { CommonModule, NgFor } from '@angular/common';
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css',
 })
-
 export class CustomerComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCustomers();
   }
-
-  newCustomer: any={
+ newCustomer: any = {
     cName: '',
     cPhoneNumber: '',
-    cEmail: ''
-  }  
-  
+    cEmail: '',
+  };
+
   constructor(private http: HttpClient) {}
 
   addCustomer() {
-      this.http.post('http://localhost:8080/customer/add-customer', this.newCustomer).subscribe(
-        (Response: any) => {
-          this.newCustomer = {cName: '',  cPhoneNumber: '', cEmail: ''};
-          console.log(this.newCustomer);
-          
+    console.log(this.newCustomer);
+    
+    if (
+      this.newCustomer.cName &&
+      this.newCustomer.cPhoneNumber &&
+      this.newCustomer.cEmail
+    ) {
+      this.http
+        .post('http://localhost:8080/customer/add-customer', this.newCustomer)
+        .subscribe((response: any) => {
+          this.newCustomer = { cName: '', cPhoneNumber: '', cEmail: '' };
           this.getAllCustomers();
-        },
-        (error) => {
-          console.error('FAILED To ADD CUSTOMER :', error);
-        }
-      );      
+        });
+    } else {
+      (error: any) => {
+        console.error('FAILED To ADD CUSTOMER :', error);
+      };
+    }
+
   }
 
-  public listOfCustomer:any = [];
+  // searchCustomer() {
+  //   this.http.get(`http://localhost:8080/customer/search-customerById/${this.newCustomer.cName}`)
+
+  // }
+
+  // updateCustomer() {
+  //   this.http
+  //     .put('http://localhost:8080/customer/update-customer', this.newCustomer)
+  //     .subscribe((response: any) => {
+  //       this.getAllCustomers();
+  //     });
+  // }
+  public listOfCustomer: any = [];
 
   getAllCustomers() {
     this.http.get('http://localhost:8080/customer/get-all-customers').subscribe(
@@ -48,7 +66,6 @@ export class CustomerComponent implements OnInit {
       (error) => {
         console.error('FAILED GET ALL CUSTOMERS');
       }
-    )
+    );
   }
-
 }
