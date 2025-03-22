@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor } from '@angular/common';
 import { Customer } from '../../model/Customer';
 import { HttpClient } from '@angular/common/http';
+import { CustomerService } from '../../service/CustomerService';
 
 @Component({
   selector: 'app-customer',
@@ -12,10 +13,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CustomerComponent implements OnInit {
   ngOnInit(): void {
-    this.loadCustomer();
+    this.loadCustomersTable();
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private customerService: CustomerService
+  ) {}
 
   customer: Customer = new Customer('', '', '');
 
@@ -32,8 +36,7 @@ export class CustomerComponent implements OnInit {
         )
         .subscribe((res) => {
           this.customer = new Customer('', '', '');
-          console.log(res);
-          this.loadCustomer();
+          this.loadCustomersTable();
         });
     } else {
       alert('PLEASE FILL OUT ALL REQUIRED FIELDS');
@@ -42,11 +45,11 @@ export class CustomerComponent implements OnInit {
 
   customersList: Customer[] = [];
 
-  loadCustomer() {
-    this.http
-      .get<Customer[]>('http://localhost:8080/customer/get-all-customers')
-      .subscribe((res) => {
-        this.customersList = res;
+  loadCustomersTable() {
+    this.customerService
+      .loadCustomers()
+      .subscribe((customersList: Customer[]) => {
+        this.customersList = customersList;
       });
   }
 }
