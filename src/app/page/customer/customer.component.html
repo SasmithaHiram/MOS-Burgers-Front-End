@@ -4,7 +4,7 @@
   >
 </div>
 
-<form>
+<form (ngSubmit)="addCustomer()">
   <div class="grid gap-6 mb-6 md:grid-cols-2">
     <div>
       <label
@@ -16,6 +16,7 @@
         type="text"
         id="customer-name"
         name="customerName"
+        [(ngModel)]="customer.name"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Enter Name"
         required
@@ -31,6 +32,7 @@
         type="tel"
         id="phone"
         name="customerPhoneNumber"
+        [(ngModel)]="customer.phoneNumber"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Enter Phone Number"
         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
@@ -47,6 +49,7 @@
         type="email"
         id="email"
         name="customerEmail"
+        [(ngModel)]="customer.email"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Enter Email"
         required
@@ -119,9 +122,9 @@
         <th scope="col" class="px-6 py-3">Action</th>
       </tr>
     </thead>
-    <!-- <tbody>
+    <tbody>
       <tr
-        *ngFor="let customer of customerList"
+        *ngFor="let customer of customersList"
         class="bg-blue-600 border-b border-blue-400 hover:bg-blue-500"
       >
         <th
@@ -138,6 +141,6 @@
           <a href="#" class="font-medium text-white hover:underline">Delete</a>
         </td>
       </tr>
-    </tbody> -->
+    </tbody>
   </table>
 </div>

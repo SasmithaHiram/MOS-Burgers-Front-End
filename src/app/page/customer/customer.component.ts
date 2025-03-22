@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgFor } from '@angular/common';
 import { Customer } from '../../model/Customer';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-customer',
@@ -9,20 +10,43 @@ import { Customer } from '../../model/Customer';
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css',
 })
-export class CustomerComponent {
-  constructor() {
-    new Customer(1, 'Sasmitha', '0714839984', 'sasmithahiram@gmail.com');
-
-    let customer1: Customer = {
-      id: 1,
-      name: 'Sasmitha',
-      phoneNumber: '0714839984',
-      email: 'sasmithahiramm@gmail.com',
-    };
+export class CustomerComponent implements OnInit {
+  ngOnInit(): void {
+    this.loadCustomer();
   }
 
-  customerLisst: Customer[] = [
-    new Customer(1, 'Sasmitha', '0714839984', 'sasmithahiram@gmail.com'),
-    new Customer(1, 'Sasmitha', '0714839984', 'sasmithahiram@gmail.com'),
-  ];
+  constructor(private http: HttpClient) {}
+
+  customer: Customer = new Customer('', '', '');
+
+  addCustomer() {
+    if (
+      this.customer.name &&
+      this.customer.phoneNumber &&
+      this.customer.email
+    ) {
+      this.http
+        .post<Customer>(
+          'http://localhost:8080/customer/add-customer',
+          this.customer
+        )
+        .subscribe((res) => {
+          this.customer = new Customer('', '', '');
+          console.log(res);
+          this.loadCustomer();
+        });
+    } else {
+      alert('PLEASE FILL OUT ALL REQUIRED FIELDS');
+    }
+  }
+
+  customersList: Customer[] = [];
+
+  loadCustomer() {
+    this.http
+      .get<Customer[]>('http://localhost:8080/customer/get-all-customers')
+      .subscribe((res) => {
+        this.customersList = res;
+      });
+  }
 }
