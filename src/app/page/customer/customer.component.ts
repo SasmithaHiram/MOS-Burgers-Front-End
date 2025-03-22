@@ -29,15 +29,10 @@ export class CustomerComponent implements OnInit {
       this.customer.phoneNumber &&
       this.customer.email
     ) {
-      this.http
-        .post<Customer>(
-          'http://localhost:8080/customer/add-customer',
-          this.customer
-        )
-        .subscribe((res) => {
-          this.customer = new Customer('', '', '');
-          this.loadCustomersTable();
-        });
+      this.customerService.addNewCustomer(this.customer).subscribe(() => {
+        this.customer = new Customer('', '', '');
+        this.loadCustomersTable();
+      });
     } else {
       alert('PLEASE FILL OUT ALL REQUIRED FIELDS');
     }
