@@ -70,7 +70,7 @@ export class ProductComponent implements OnInit {
   deleteProduct(code?: number) {
     if (!code) return;
 
-    if (confirm('ARE YOU SURE YOU WANT TO DELETE THIS CUSTOMER?')) {
+    if (confirm('ARE YOU SURE YOU WANT TO DELETE THIS PRODUCT?')) {
       this.productService.deleteProduct(code.toString()).subscribe(() => {
         this.loadProductsTable();
       });
