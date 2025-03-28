@@ -4,6 +4,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { Customer } from '../../model/Customer';
 import { HttpClient } from '@angular/common/http';
 import { CustomerService } from '../../service/CustomerService';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-customer',
@@ -30,11 +31,40 @@ export class CustomerComponent implements OnInit {
       this.customer.email
     ) {
       this.customerService.addNewCustomer(this.customer).subscribe(() => {
-        this.customer = new Customer('', '', '');
+        this.resetForm();
         this.loadCustomersTable();
       });
     } else {
       alert('PLEASE FILL OUT ALL REQUIRED FIELDS');
+    }
+  }
+
+  private resetForm() {
+    this.customer = new Customer('', '', '');
+    this.isEditMode = false;
+    this.selectedCustomerId = null;
+  }
+
+  isEditMode: boolean = false;
+  selectedCustomerId: number | null = null;
+
+  editCustomer(customer: Customer) {
+    this.isEditMode = true;
+    this.selectedCustomerId = customer.id as number;
+    this.customer = { ...customer };
+  }
+
+  cancelEdit() {
+    this.resetForm();
+  }
+
+  deleteCustomer(id?: number) {
+    if (!id) return;
+
+    if (confirm('ARE YOU SURE YOU WANT TO DELETE THIS CUSTOMER?')) {
+      this.customerService.deleteCustomer(id.toString()).subscribe(() => {
+        this.loadCustomersTable();
+      });
     }
   }
 

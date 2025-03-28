@@ -9,8 +9,19 @@ import { Injectable } from '@angular/core';
 export class CustomerService {
   constructor(private http: HttpClient) {}
 
-  addNewCustomer(customer:Customer):Observable<Customer> {
-    return this.http.post<Customer>('http://localhost:8080/customer/add-customer', customer);
+  addNewCustomer(customer: Omit<Customer, 'id'>): Observable<Customer> {
+    return this.http.post<Customer>(
+      'http://localhost:8080/customer/add-customer',
+      customer
+    );
+  }
+
+  updateCustomer(id: string, customer: Customer): Observable<Customer> {
+    return this.http.put<Customer>(`http://localhost:8080/customer/update-customer/${id}`, customer);
+  }
+
+  deleteCustomer(id: string): Observable<void> {
+    return this.http.delete<void>(`http://localhost:8080/customer/delete-customer/${id}`);
   }
 
   loadCustomers(): Observable<Customer[]> {
@@ -19,14 +30,3 @@ export class CustomerService {
     );
   }
 }
-
-
-// this.http
-//         .post<Customer>(
-//           'http://localhost:8080/customer/add-customer',
-//           this.customer
-//         )
-//         .subscribe((res) => {
-//           this.customer = new Customer('', '', '');
-//           this.loadCustomersTable();
-//         });
