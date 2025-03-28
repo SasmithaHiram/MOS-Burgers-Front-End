@@ -16,7 +16,7 @@ export class CustomerService {
     );
   }
 
-  updateCustomer(id: string, customer: Customer): Observable<Customer> {
+  updateCustomer(id: string, customer : Customer): Observable<Customer> {
     return this.http.put<Customer>(`http://localhost:8080/customer/update-customer/${id}`, customer);
   }
 
