@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from '../../model/Product';
 
 @Component({
@@ -8,6 +8,7 @@ import { Product } from '../../model/Product';
   styleUrl: './product-card.component.css'
 })
 export class ProductCardComponent {
+addToCart: any;
 handleImageError($event: ErrorEvent) {
 throw new Error('Method not implemented.');
 }
@@ -16,5 +17,5 @@ throw new Error('Method not implemented.');
 }
   @Input()
   public product: any;
-
-}
+ }
+// public product: Product | undefined;

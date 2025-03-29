@@ -28,13 +28,18 @@ cartItems: any;
   
     loadProductsTable() {
       this.productService.loadProducts().subscribe((productList: Product[]) => {
-        this.productList = productList;
-        console.log(this.productList);
-        
+        this.productList = productList; 
       });
     }
 
-    
-  
+    cart: Product[] = [];
+
+    addToCart(product: Product) {
+      this.cart.push(product)
+      console.log(this.cart);
+      
+    }
+
+    removeFromCart(index: number) {}
 
 }

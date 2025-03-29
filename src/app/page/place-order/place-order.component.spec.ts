@@ -8,9 +8,8 @@ describe('PlaceOrderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlaceOrderComponent]
-    })
-    .compileComponents();
+      imports: [PlaceOrderComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PlaceOrderComponent);
     component = fixture.componentInstance;
