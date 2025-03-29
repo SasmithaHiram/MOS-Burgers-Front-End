@@ -18,4 +18,3 @@ throw new Error('Method not implemented.');
   @Input()
   public product: any;
  }
-// public product: Product | undefined;
