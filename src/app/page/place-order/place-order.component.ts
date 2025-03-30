@@ -4,24 +4,32 @@ import { HttpClient } from '@angular/common/http';
 import { ProductService } from '../../service/ProductService';
 import { Product } from '../../model/Product';
 import { NgFor } from '@angular/common';
+import { Customer } from '../../model/Customer';
+import { FormsModule } from '@angular/forms';
+import { CustomerService } from '../../service/CustomerService';
 
 @Component({
   selector: 'app-place-order',
-  imports: [ProductCardComponent, NgFor],
+  imports: [ProductCardComponent, NgFor, FormsModule],
   templateUrl: './place-order.component.html',
   styleUrl: './place-order.component.css',
 })
 export class PlaceOrderComponent implements OnInit {
+  [x: string]: any;
   cartItems: any;
   totalAmount: any;
   orderService: any;
+  selectedCustomer: any;
+  selectCustomer: any;
   ngOnInit(): void {
     this.loadProductsTable();
+    this.getAllCustomer();
   }
 
   constructor(
     private http: HttpClient,
-    private productService: ProductService
+    private productService: ProductService,
+    private customerService: CustomerService
   ) {}
 
   product: Product = new Product('', '', 0, '');
@@ -65,8 +73,15 @@ export class PlaceOrderComponent implements OnInit {
       return;
     }
 
+    const selectedCustomer = this.customersList.find(
+      (customer) => customer.id == this.selectCustomer
+    );
+
+   
+
     const order = {
       totalAmount: this.getTotalAmount(),
+      customerName: selectedCustomer?.name,
       orderDetails: this.cart.map((item) => ({
         product: {
           code: item.product.code,
@@ -84,5 +99,14 @@ export class PlaceOrderComponent implements OnInit {
       },
     });
   }
-  
+
+  customersList: Customer[] = [];
+
+  getAllCustomer() {
+    this.customerService
+      .loadCustomers()
+      .subscribe((customerList: Customer[]) => {
+        this.customersList = customerList;
+      });
+  }
 }
