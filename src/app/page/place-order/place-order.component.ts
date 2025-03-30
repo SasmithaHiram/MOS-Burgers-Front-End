@@ -37,7 +37,15 @@ export class PlaceOrderComponent implements OnInit {
   cart: any[] = [];
 
   addToCart(product: Product) {
-    this.cart.push(product);
+    const existingProduct = this.cart.find(
+      (item) => item.product.code === product.code
+    );
+
+    if (existingProduct) {
+      existingProduct.qty++;
+    } else {
+      this.cart.push({ product, qty: 1 });
+    }
   }
 
   removeFromCart(index: number) {
@@ -45,7 +53,10 @@ export class PlaceOrderComponent implements OnInit {
   }
 
   getTotalAmount(): number {
-    return this.cart.reduce((total, item) => total + item.price, 0);
+    return this.cart.reduce(
+      (total, item) => total + item.product.price * item.qty,
+      0
+    );
   }
 
   placeOrder() {
@@ -53,6 +64,25 @@ export class PlaceOrderComponent implements OnInit {
       alert('YOUR CART IS EMPTY');
       return;
     }
+
+    const order = {
+      totalAmount: this.getTotalAmount(),
+      orderDetails: this.cart.map((item) => ({
+        product: {
+          code: item.product.code,
+          name: item.product.name,
+          price: item.product.price,
+        },
+        qty: item.qty,
+        total: item.product.price * item.qty,
+      })),
+    };
+    this.http.post('http://localhost:8080/order/place-order', order).subscribe({
+      next: (response) => {
+        alert('ORDER PLACED SUCCESSFULLY');
+        this.cart = [];
+      },
+    });
   }
   
 }
