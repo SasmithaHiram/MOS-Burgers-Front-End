@@ -13,6 +13,8 @@ import { Observable } from 'rxjs';
   styleUrl: './customer.component.css',
 })
 export class CustomerComponent implements OnInit {
+  searchTerm: string = '';
+
   ngOnInit(): void {
     this.loadCustomersTable();
   }

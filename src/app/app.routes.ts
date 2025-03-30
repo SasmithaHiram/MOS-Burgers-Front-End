@@ -13,7 +13,7 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'dashboard',
@@ -21,7 +21,7 @@ export const routes: Routes = [
     children: [
       { path: 'products', component: ProductComponent },
       { path: 'customers', component: CustomerComponent },
-      {path: 'place-order', component: PlaceOrderComponent}
+      { path: 'place-order', component: PlaceOrderComponent },
     ],
   },
 ];

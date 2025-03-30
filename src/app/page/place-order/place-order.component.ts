@@ -77,8 +77,6 @@ export class PlaceOrderComponent implements OnInit {
       (customer) => customer.id == this.selectCustomer
     );
 
-   
-
     const order = {
       totalAmount: this.getTotalAmount(),
       customerName: selectedCustomer?.name,
@@ -96,6 +94,7 @@ export class PlaceOrderComponent implements OnInit {
       next: (response) => {
         alert('ORDER PLACED SUCCESSFULLY');
         this.cart = [];
+        this
       },
     });
   }
