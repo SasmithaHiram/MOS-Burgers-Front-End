@@ -6,6 +6,7 @@ import { HomeComponent } from './page/home/home.component';
 import { LoginComponent } from './page/login/login.component';
 import { PlaceOrderComponent } from './page/place-order/place-order.component';
 import { ChartComponent } from './page/chart/chart.component';
+import { OrdersComponent } from './page/orders/orders.component';
 
 export const routes: Routes = [
   {
@@ -20,10 +21,11 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     children: [
-      {path: 'chart', component: ChartComponent},
+      { path: 'chart', component: ChartComponent },
       { path: 'products', component: ProductComponent },
       { path: 'customers', component: CustomerComponent },
       { path: 'place-order', component: PlaceOrderComponent },
+      { path: 'get-orders', component: OrdersComponent },
     ],
   },
 ];

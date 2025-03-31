@@ -12,6 +12,10 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './chart.component.css',
 })
 export class ChartComponent implements OnInit {
+  customersCount: number = 0;
+    productCount: number = 0;
+    orderCount: number = 0;
+    
   ngOnInit(): void {
     this.fetchDataAndRenderChart();
   }
@@ -27,11 +31,11 @@ export class ChartComponent implements OnInit {
         this.http
           .get('http://localhost:8080/order/get-All')
           .subscribe((orders: any) => {
-            const customersCount = customer.length;
-            const productCount = product.length;
-            const orderCount = orders.length;
+            this.customersCount = customer.length;
+            this.productCount = product.length;
+            this.orderCount = orders.length;
 
-            this.renderChart(customersCount, productCount, orderCount);
+            this.renderChart(this.customersCount, this.productCount, this.orderCount);
           });
       });
     });
