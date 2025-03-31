@@ -7,26 +7,25 @@
       >
         <tr>
           <th scope="col" class="px-6 py-3">Id</th>
-          <th scope="col" class="px-6 py-3">Name</th>
-          <th scope="col" class="px-6 py-3">Phone Number</th>
-          <th scope="col" class="px-6 py-3">Email</th>
-          <th scope="col" class="px-6 py-3">Action</th>
+          <th scope="col" class="px-6 py-3">Customer Name</th>
+          <th scope="col" class="px-6 py-3">Total Amount</th>
+          <th scope="col" class="px-6 py-3">Received Amount</th>
         </tr>
       </thead>
       <tbody>
         <tr
-         
+        *ngFor="let orders of orderHistory"
           class="bg-blue-600 border-b border-blue-400 hover:bg-blue-500"
         >
           <th
             scope="row"
             class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
           >
-            <!-- {{ order.id }} -->
+            {{ orders.id }}
           </th>
-          <td class="px-6 py-4"></td>
-          <td class="px-6 py-4"></td>
-          <td class="px-6 py-4"></td>
+          <td class="px-6 py-4">{{orders.customerName}}</td>
+          <td class="px-6 py-4">{{orders.totalAmount}}</td>
+          <td class="px-6 py-4">{{orders.receivedAmount}}</td>
         </tr>
       </tbody>
     </table>

@@ -21,6 +21,8 @@ export class PlaceOrderComponent implements OnInit {
   orderService: any;
   selectedCustomer: any;
   selectCustomer: any;
+  enterAmount: any;
+
   ngOnInit(): void {
     this.loadProductsTable();
     this.getAllCustomer();
@@ -77,26 +79,33 @@ export class PlaceOrderComponent implements OnInit {
       (customer) => customer.id == this.selectCustomer
     );
 
-    const order = {
-      totalAmount: this.getTotalAmount(),
-      customerName: selectedCustomer?.name,
-      orderDetails: this.cart.map((item) => ({
-        product: {
-          code: item.product.code,
-          name: item.product.name,
-          price: item.product.price,
-        },
-        qty: item.qty,
-        total: item.product.price * item.qty,
-      })),
-    };
-    this.http.post('http://localhost:8080/order/place-order', order).subscribe({
-      next: (response) => {
-        alert('ORDER PLACED SUCCESSFULLY');
-        this.cart = [];
-        this
-      },
-    });
+    if (this.enterAmount != null) {
+      const order = {
+        totalAmount: this.getTotalAmount(),
+        receivedAmount: this.enterAmount,
+        customerName: selectedCustomer?.name,
+        orderDetails: this.cart.map((item) => ({
+          product: {
+            code: item.product.code,
+            name: item.product.name,
+            price: item.product.price,
+          },
+          qty: item.qty,
+          total: item.product.price * item.qty,
+        })),
+      };
+      this.http
+        .post('http://localhost:8080/order/place-order', order)
+        .subscribe({
+          next: (response) => {
+            alert('ORDER PLACED SUCCESSFULLY');
+            this.cart = [];
+            this;
+          },
+        });
+    } else {
+      alert('PLEASE ENTER THE RECEIVED AMOUNT BEFORE PLACING THE ORDER');
+    }
   }
 
   customersList: Customer[] = [];

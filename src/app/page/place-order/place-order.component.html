@@ -64,6 +64,16 @@
         <span class="font-bold">Rs.{{ getTotalAmount() }}</span>
       </div>
 
+      <div class="mb-4">
+        <label for="amount" class="text-sm font-semibold">Enter Amount</label>
+        <input
+          [(ngModel)]="enterAmount"
+          type="number"
+          class="w-full border rounded-lg p-2 mt-1"
+          placeholder="Enter amount"
+        />
+      </div>
+
       <button
         (click)="placeOrder()"
         class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
