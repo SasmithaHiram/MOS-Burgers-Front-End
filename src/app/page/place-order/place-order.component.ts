@@ -7,6 +7,9 @@ import { NgFor } from '@angular/common';
 import { Customer } from '../../model/Customer';
 import { FormsModule } from '@angular/forms';
 import { CustomerService } from '../../service/CustomerService';
+import { AfterViewInit } from '@angular/core';
+
+declare const window: any;
 
 @Component({
   selector: 'app-place-order',
@@ -33,6 +36,9 @@ export class PlaceOrderComponent implements OnInit {
     private productService: ProductService,
     private customerService: CustomerService
   ) {}
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
   product: Product = new Product('', '', 0, '');
 
@@ -99,8 +105,8 @@ export class PlaceOrderComponent implements OnInit {
         .subscribe({
           next: (response) => {
             alert('ORDER PLACED SUCCESSFULLY');
+            this.generatePDF(order);
             this.cart = [];
-            this;
           },
         });
     } else {
@@ -116,5 +122,57 @@ export class PlaceOrderComponent implements OnInit {
       .subscribe((customerList: Customer[]) => {
         this.customersList = customerList;
       });
+  }
+
+  generatePDF(order: any) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(22);
+    doc.setTextColor(40, 40, 40);
+    doc.text('MOS Burgers', 75, 15);
+
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    doc.text(`Customer Name: ${order.customerName || 'N/A'}`, 10, 30);
+    doc.text(`Total Amount: Rs.${order.totalAmount.toFixed(2)}`, 10, 40);
+    doc.text(`Received Amount: Rs.${order.receivedAmount.toFixed(2)}`, 10, 50);
+
+    let yPosition = 65;
+    doc.setFillColor(200, 200, 200);
+    doc.rect(10, yPosition - 5, 190, 8, 'F');
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    doc.text('No.', 12, yPosition);
+    doc.text('Product Name', 40, yPosition);
+    doc.text('Qty', 120, yPosition);
+    doc.text('Price', 140, yPosition);
+    doc.text('Total', 160, yPosition);
+
+    yPosition += 10;
+
+    order.orderDetails.forEach((item: any, index: number) => {
+      doc.setFontSize(10);
+      doc.text(`${index + 1}`, 12, yPosition);
+      doc.text(`${item.product.name}`, 40, yPosition);
+      doc.text(`${item.qty}`, 120, yPosition);
+      doc.text(`${item.product.price.toFixed(2)}`, 140, yPosition);
+      doc.text(`${item.total.toFixed(2)}`, 160, yPosition);
+      yPosition += 8;
+    });
+
+    doc.setFontSize(14);
+    doc.setTextColor(255, 0, 0);
+    doc.text(
+      `Grand Total: Rs.${order.totalAmount.toFixed(2)}`,
+      140,
+      yPosition + 10
+    );
+
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0);
+    doc.text('Thank you for shopping with us!', 70, yPosition + 20);
+
+    doc.save(`${order.customerName}.pdf`);
   }
 }
