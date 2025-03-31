@@ -107,6 +107,8 @@ export class PlaceOrderComponent implements OnInit {
             alert('ORDER PLACED SUCCESSFULLY');
             this.generatePDF(order);
             this.cart = [];
+            this.selectCustomer = "";
+            this.enterAmount = "";
           },
         });
     } else {
