@@ -4,7 +4,6 @@ import { CommonModule, NgFor } from '@angular/common';
 import { Customer } from '../../model/Customer';
 import { HttpClient } from '@angular/common/http';
 import { CustomerService } from '../../service/CustomerService';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-customer',
