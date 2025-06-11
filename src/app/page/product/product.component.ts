@@ -28,6 +28,7 @@ export class ProductComponent implements OnInit {
 
   selectedFile: File | null = null;
   cloudinaryImageURL: string = '';
+  isUploading: boolean = false;
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -39,9 +40,12 @@ export class ProductComponent implements OnInit {
 
   uploadImage() {
     if (this.selectedFile) {
+      this.isUploading = true;
+
       this.cloudinaryService.uploadImage(this.selectedFile).subscribe({
         next: (res) => {
           this.cloudinaryImageURL = res.imageURL;
+          this.isUploading = false;
         },
       });
     }
